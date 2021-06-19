@@ -1,0 +1,49 @@
+@mixin flexColumn() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+div {
+  .wrapper-padding {
+    padding: 0 2rem;
+    margin: 0 2rem;
+    @media only screen and (max-width: 36em) {
+      padding: 0.5rem;
+    }
+  }
+  .flexCol {
+    @include flexColumn();
+  }
+  .home-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    grid-template-rows: 75% 25%;
+    margin: 2rem;
+    background-color: rgb(0, 0, 22);
+  }
+
+  .home-main-grid-img {
+    grid-column: 1 / 2;
+    width: 18rem;
+    height: 18rem;
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+  }
+
+  .home-main-grid-acc {
+    grid-column: 2/4;
+    padding-left: 4rem;
+  }
+}
+
+hr {
+  width: 100%;
+  color: white;
+}

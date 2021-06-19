@@ -1,0 +1,20 @@
+@mixin centerText {
+  text-align: center;
+}
+
+.mainTitle {
+  font-size: 3rem;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  text-shadow: 0.25rem 0.25rem 0 black;
+  @include centerText();
+  @media only screen and (max-width: 36em) {
+    font-size: 2rem;
+    text-shadow: 0.2rem 0.175rem 0 black;
+  }
+}
+
+.accHeader {
+  color: white;
+}

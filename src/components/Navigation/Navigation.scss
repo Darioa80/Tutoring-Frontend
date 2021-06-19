@@ -1,0 +1,36 @@
+@mixin navSpacing {
+  margin: 0 1rem;
+}
+
+@mixin flexEnd {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.mainNav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: rgb(26, 26, 26);
+  margin-top: 10px;
+  padding: 10px 4vw;
+}
+
+.login-nav {
+  @include flexEnd();
+  color: rgb(0, 198, 224);
+  text-decoration: underline;
+  margin: 0.75rem 3rem;
+  @media only screen and (max-width: 36em) {
+    margin: 0.5rem 1rem;
+  }
+}
+
+.login-nav-spacing {
+  @include navSpacing();
+}
+.navLink {
+  @include navSpacing();
+  color: white;
+}

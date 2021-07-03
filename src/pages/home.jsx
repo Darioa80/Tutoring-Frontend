@@ -1,6 +1,6 @@
 import React from "react";
-import "../components/text.scss";
-import "../components/wrap.scss";
+import "../scss/text.scss";
+import "../scss/wrap.scss";
 import Navigation from "../components/Navigation/Navigation";
 import MainGrid from "../components/main-grid";
 const Home = () => {

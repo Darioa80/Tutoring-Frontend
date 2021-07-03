@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import "../components/wrap.scss";
-import "../components/text.scss";
+import "../scss/wrap.scss";
+import "../scss/text.scss";
 
 const MainGrid = () => {
   const acc = [
@@ -11,7 +11,7 @@ const MainGrid = () => {
   ];
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <div className="home-grid">
         <div className="home-main-grid-img">
           <img

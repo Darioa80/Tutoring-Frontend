@@ -2,17 +2,26 @@
   text-align: center;
 }
 
+$text-shadow-col: green;
+
 .mainTitle {
-  font-size: 3rem;
-  color: white;
+  font-size: 4rem;
+  color: black;
   font-family: Arial, Helvetica, sans-serif;
+
   font-weight: bold;
-  text-shadow: 0.25rem 0.25rem 0 black;
+  // text-shadow: 0.25rem 0.25rem 0 $text-shadow-col;
   @include centerText();
   @media only screen and (max-width: 36em) {
     font-size: 2rem;
-    text-shadow: 0.2rem 0.175rem 0 black;
+    // text-shadow: 0.2rem 0.175rem 0 $text-shadow-col;
   }
+}
+
+h1 {
+  display: block;
+  font-size: 2em;
+  margin: 0.5rem;
 }
 
 .accHeader {

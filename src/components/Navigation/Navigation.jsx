@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Router } from "react-router-dom";
-import "./Navigation.scss";
+import "../../scss/Navigation.scss";
 import Login from "./Login";
 
 const Navigation = (props) => {

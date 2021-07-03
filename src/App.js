@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./pages/home";
+import Login from "./pages/login";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <main>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
         </Switch>
       </main>
     </Router>

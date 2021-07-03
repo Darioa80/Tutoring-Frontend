@@ -1,0 +1,109 @@
+@import "../scss/variables.scss";
+
+@mixin flexColumn() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  @include flexColumn();
+  button {
+    margin-top: 1rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    color: white;
+    align-self: flex-end;
+    border-color: black;
+    background-color: rgb(184, 0, 86);
+  }
+}
+
+div {
+  .wrapper-padding {
+    padding: 0.5rem;
+
+    @media only screen and (min-width: 36em) {
+      padding: 0 2rem;
+      margin: 0 2rem;
+    }
+    @media only screen and (min-width: 48em) {
+      padding: 0 3rem;
+      margin: 0 3rem;
+    }
+  }
+  .flexCol {
+    @include flexColumn();
+  }
+  .home-grid {
+    display: grid;
+    grid-template-columns: 40% 30% 30%;
+    grid-template-rows: 75% 25%;
+    margin: 1rem;
+    background-color: rgb(0, 0, 22);
+  }
+
+  .home-main-grid-img {
+    grid-column: 1 / 2;
+    width: 12rem;
+    height: 12rem;
+    padding: 0.75rem;
+    @media only screen and (min-width: 60rem) {
+      width: 22rem;
+      height: 22rem;
+      padding: 0.75rem 0.75rem 0.75rem 3rem;
+    }
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      vertical-align: middle;
+    }
+  }
+
+  .home-main-grid-acc {
+    grid-column: 2/4;
+    padding-left: 1rem;
+  }
+}
+
+hr {
+  width: 100%;
+  border-color: black;
+}
+
+.form-parent {
+  width: 70%;
+  padding: 1rem;
+  margin-top: 1rem;
+  background: rgb(189, 188, 188);
+  border-radius: 3rem;
+  display: flex;
+  justify-content: center;
+  @media only screen and (min-width: $mq-48) {
+    padding: 3rem;
+  }
+}
+
+.center-wrapper {
+  display: grid;
+  place-items: center;
+  input {
+    display: block;
+  }
+  label {
+    display: block;
+  }
+}
+
+.wrap-form-field {
+  margin-top: 0.3rem;
+  padding: 0.25rem;
+
+  @media only screen and (min-width: $mq-48) {
+    padding: 0.5rem;
+  }
+}

@@ -13,11 +13,23 @@
   flex-direction: row;
   justify-content: space-evenly;
   background-color: black;
-  margin-top: 10px;
+  margin-top: 1.5rem;
   padding: 0.5rem 2rem;
   font-size: 1rem;
   @media only screen and (min-width: 36em) {
-    font-size: 1.5rem;
+    font-size: 1rem;
+  }
+  transition: color;
+  a {
+    @include navSpacing();
+    color: white;
+    &.active {
+      color: rgb(0, 198, 224);
+    }
+  }
+
+  a:hover {
+    color: rgb(0, 198, 224);
   }
 }
 
@@ -33,8 +45,4 @@
 
 .login-nav-spacing {
   @include navSpacing();
-}
-.navLink {
-  @include navSpacing();
-  color: white;
 }

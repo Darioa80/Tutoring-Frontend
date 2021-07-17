@@ -8,7 +8,7 @@ const Navigation = (props) => {
     <React.Fragment>
       <header>
         <nav className="mainNav">
-          <NavLink to="/bio" className="navLink">
+          <NavLink to="/" className="navLink">
             Home
           </NavLink>
           <NavLink to="/bio" className="navLink">

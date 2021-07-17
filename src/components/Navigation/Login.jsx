@@ -5,11 +5,11 @@ const LogIn = () => {
   return (
     <React.Fragment>
       <nav className="login-nav">
-        <NavLink className="login-nav-spacing" to="/">
+        <NavLink className="login-nav-spacing" to="/login">
           Sign Up
         </NavLink>
         <span style={{ color: "black" }}> | </span>
-        <NavLink className="login-nav-spacing" to="/">
+        <NavLink className="login-nav-spacing" to="/login">
           Log In
         </NavLink>
       </nav>

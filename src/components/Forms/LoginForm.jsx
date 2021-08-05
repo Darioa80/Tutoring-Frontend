@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 import "../../scss/wrap.scss";
 import Input from "./Input";
@@ -9,7 +9,6 @@ const axios = require("axios");
 
 const api = "http://localhost:8080/";
 
-const paths = ["Dario", "Danilo", "Carolina", "Denise", "Zobella", "Jose"];
 const LoginForm = (props) => {
   const [formData, setFormData] = useState({
     email: "",
@@ -36,7 +35,7 @@ const LoginForm = (props) => {
           "Content-Type": "application/json",
         }
       );
-      console.log(result);
+
       userData = result.data;
 
       auth.firstName = userData.firstName;
@@ -67,9 +66,9 @@ const LoginForm = (props) => {
   return (
     <React.Fragment>
       <div className="form-parent">
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className="vertical-form-wrap">
           <h1>Log in to your account</h1>
-          <div className="wrap-form-field">
+          <div className="wrap-login-form-field">
             <Input
               name="email"
               label="Email"
@@ -84,9 +83,18 @@ const LoginForm = (props) => {
               inputData={formData["password"]}
             />
             {error.check && <ErrorBox message={error.message} />}
-            <button className={error.check ? "error-spacing" : ""}>
+            <button
+              className={
+                error.check
+                  ? "login-form-button error-spacing"
+                  : "login-form-button"
+              }
+            >
               Log in
             </button>
+            <span>
+              or <Link to="/signup">Sign Up</Link>
+            </span>
           </div>
         </form>
       </div>

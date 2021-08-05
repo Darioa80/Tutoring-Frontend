@@ -3,5 +3,34 @@ $mq-48: 48em;
 $mq-60: 60rem;
 
 //colors
+$mainred: rgb(184, 0, 86);
+$blue: rgb(0, 198, 224);
+$darkblue: rgb(0, 34, 224);
 
 //fonts
+
+//border
+$border-radius-big: 3rem;
+$border-radius-small: 0.5rem;
+
+//spacing
+$upper-spacing-sm: 0.5rem;
+
+//mixins
+@mixin button-styling($width, $margin-top) {
+  margin-top: $margin-top;
+  padding: 0.5rem 0.75rem;
+  border-radius: $border-radius-small;
+  color: white;
+  border-color: black;
+  background-color: $mainred;
+  width: $width;
+  cursor: pointer;
+}
+
+@mixin flexColumn() {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

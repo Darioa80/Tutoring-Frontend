@@ -22,7 +22,6 @@ const Navigation = (props) => {
           </NavLink>
         </nav>
       </header>
-      <Login />
     </React.Fragment>
   );
 };

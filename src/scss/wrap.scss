@@ -1,40 +1,37 @@
 @import "../scss/variables.scss";
 
 //colors
-$mainred: rgb(184, 0, 86);
-
-$border-radius-big: 3rem;
-$border-radius-small: 0.5rem;
-
-@mixin flexColumn() {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
 
 form {
-  @include flexColumn();
-  width: 90%;
+  &.vertical-form-wrap {
+    @include flexColumn();
+    width: 90%;
+  }
+
   button {
-    margin-top: 1.5rem;
-    padding: 0.5rem 0.75rem;
-    border-radius: $border-radius-small;
-    color: white;
-    border-color: black;
-    background-color: $mainred;
-    width: 100%;
-    cursor: pointer;
-    &.error-spacing {
-      margin-top: 0.5rem;
+    &.login-form-button {
+      @include button-styling(100%, $upper-spacing-sm * 3);
+      &.error-spacing {
+        margin-top: 0.5rem;
+      }
+    }
+    &.sign-up-button {
+      @include button-styling(60%, $upper-spacing-sm * 3);
+      &.error-spacing {
+        margin-top: 0.5rem;
+      }
     }
   }
   h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
     text-align: center;
     font-size: 1.25rem;
     @media only screen and (min-width: $mq-48) {
     }
+  }
+  span {
+    display: block;
+    margin-top: 0.5rem;
   }
 }
 
@@ -109,7 +106,7 @@ hr {
   justify-content: center;
   @media only screen and (min-width: $mq-48) {
     padding: 2rem;
-    width: 30%;
+    width: 35%;
     margin-top: 1.5rem;
   }
 }
@@ -119,7 +116,12 @@ hr {
   place-items: center;
 }
 
-.wrap-form-field {
+.row-form-fields-wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.wrap-login-form-field {
   padding: 0.25rem;
   width: 60%;
   display: flex;
@@ -155,8 +157,59 @@ hr {
     color: black;
     margin-top: 0.25rem;
   }
+  span {
+    color: black;
+    align-self: flex-end;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+  }
 }
 
+.wrap-signup-form-field {
+  padding: 0.25rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media only screen and (min-width: $mq-48) {
+    padding: 0.5rem;
+  }
+  .flex-form-content {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+
+    padding: 0 0.5rem;
+    margin: 0.5rem 0.5rem;
+  }
+  input[type="text"] {
+    display: block;
+    width: 100%;
+    height: 1.25rem;
+  }
+  label {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    font-style: italic;
+    display: block;
+    @media only screen and (min-width: $mq-48) {
+      font-size: 1.2rem;
+    }
+  }
+  p {
+    font-size: 0.75rem;
+    font-style: italic;
+    color: black;
+    margin-top: 0.25rem;
+  }
+  span {
+    color: $darkblue;
+    align-self: flex-end;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+  }
+}
 .grid-container {
   display: grid;
   grid-template-columns: repeat(5, 20%);
@@ -178,7 +231,7 @@ hr {
   padding: 0.25rem;
   background-color: red;
   opacity: 0.85;
-  width: 100%;
+  width: 95%;
   text-align: center;
   border-radius: $border-radius-small;
   p {

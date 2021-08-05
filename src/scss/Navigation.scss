@@ -1,11 +1,14 @@
+@import "./variables.scss";
+
 @mixin navSpacing {
   margin: 0 1rem;
 }
 
-@mixin flexEnd {
+@mixin flexRowEnd {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .mainNav {
@@ -24,25 +27,40 @@
     @include navSpacing();
     color: white;
     &.active {
-      color: rgb(0, 198, 224);
+      color: $blue;
     }
   }
 
   a:hover {
-    color: rgb(0, 198, 224);
+    color: $blue;
   }
 }
 
 .login-nav {
-  @include flexEnd();
-  color: rgb(0, 198, 224);
+  @include flexRowEnd();
+  color: $blue;
   text-decoration: underline;
-  margin: 0.75rem 3rem;
+  margin: 0.75rem 1rem;
   @media only screen and (max-width: 36em) {
-    margin: 0.5rem 1rem;
+    margin: 0.5rem 0.5rem;
   }
 }
 
 .login-nav-spacing {
   @include navSpacing();
+}
+
+div {
+  .logged-in-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
+
+button {
+  &#tutoring-request {
+    @include button-styling(20%, $upper-spacing-sm);
+  }
 }

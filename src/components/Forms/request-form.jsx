@@ -8,8 +8,9 @@ const axios = require("axios");
 const api = "http://localhost:8080/";
 
 const RequestForm = () => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  //let subjects = [];
+  const [selectedDate, setSelectedDate] = useState();
+  const [pricesObject, setPricesObject] = useState({});
+  const [price, setPrice] = useState(0);
   const [subjects, setSubjects] = useState([]);
   const [times, setTimes] = useState([]);
   const [formData, setFormData] = useState({
@@ -17,10 +18,12 @@ const RequestForm = () => {
     subject_id: 0,
     time: "",
     date: "",
-    location: "",
+    location: [],
     topics: "",
   });
   const [error, setError] = useState({ check: false, message: "" });
+  let id_subjectName = {};
+  let id_subjectRate = {};
 
   const FormatAvailableTimes = (dateArray) => {
     const timeMap = {
@@ -65,43 +68,64 @@ const RequestForm = () => {
   };
 
   useEffect(async () => {
-    console.log("hi");
     try {
       const results = await axios.get(api + "request/subjects");
-      setSubjects([...results.data.subjects]);
-      //subjects = [...results.data.subjects];
+
+      id_subjectName = results.data[0];
+
+      setSubjects(Object.values(id_subjectName));
+      setPricesObject(results.data[1]);
     } catch (err) {
       console.log(err);
     }
-    //SetUpTimes(selectedDate);
   }, []);
 
   useEffect(() => {
     SetUpTimes(selectedDate);
+  }, [selectedDate]);
 
-    // try {
-    //   const results = await axios.post(api + "request/times", {
-    //     date: selectedDate,
-    //   });
+  const submitHandler = async () => {
+    try {
+      const result = await axios.post(api + "request/", {});
+    } catch (err) {
+      const { message } = err.response.data;
+      setError({ check: true, message: message });
+      console.log(message);
+    }
+  };
 
-    //   const displayTimes = FormatAvailableTimes(results.data.times);
-    //   console.log(displayTimes);
-    //   setTimes([...displayTimes]);
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const handleSelectChange = (e) => {
+    let currentState = { ...formData };
+    if (e.target.id == "subject") {
+      currentState.subject_id = e.target.value;
+      setFormData(currentState);
+      console.log(id_subjectRate);
+      setPrice(pricesObject[e.target.value]);
+    }
+    if (e.target.id == "time") {
+      console.log("time");
+      currentState.time = e.target.value;
+      setFormData(currentState);
+    }
+  };
+
+  useEffect(() => {
+    let currentState = { ...formData };
+    currentState.date = selectedDate;
+    setFormData(currentState);
   }, [selectedDate]);
 
   return (
     <div className="form-parent">
-      <form className="vertical-form-wrap">
+      <form onSubmit={submitHandler} className="vertical-form-wrap">
         <h1>Tutoring Request</h1>
 
         <div className="wrap-signup-form-field">
           <div className="row-form-fields-wrap">
             <div className="flex-form-content">
               <label>Select Subject:</label>
-              <select>
+              <select id="subject" onChange={handleSelectChange}>
+                <option value="" disabled selected></option>
                 {subjects.map((value, index) => {
                   return (
                     <option key={"sub" + index} value={index + 1}>
@@ -118,10 +142,12 @@ const RequestForm = () => {
                 }}
               />
               <label>Select Time:</label>
-              <select>
+              <select id="time" onChange={handleSelectChange}>
+                <option value="" disabled selected></option>
+
                 {times.map((value, index) => {
                   return (
-                    <option key={"time" + index} value={index + 1}>
+                    <option key={"time" + index} value={value}>
                       {value}
                     </option>
                   );
@@ -129,6 +155,8 @@ const RequestForm = () => {
               </select>
             </div>
           </div>
+          <hr />
+          <span id="cost">{`Cost: $${price}`}</span>
 
           <button className="sign-up-button">Send Request</button>
         </div>

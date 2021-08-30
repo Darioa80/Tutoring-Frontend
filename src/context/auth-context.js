@@ -6,4 +6,6 @@ export const AuthContext = createContext({
   token: null,
   firstName: "",
   //isLoggedIn: false,
+  login: () => {},
+  logout: () => {},
 });

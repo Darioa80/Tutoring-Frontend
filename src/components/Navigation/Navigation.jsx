@@ -8,10 +8,10 @@ const Navigation = (props) => {
     <React.Fragment>
       <header>
         <nav className="mainNav">
-          <NavLink to="/" className="navLink">
+          <NavLink exact to="/" className="navLink">
             Home
           </NavLink>
-          <NavLink to="/bio" className="navLink">
+          <NavLink to="/subjects" className="navLink">
             Subjects
           </NavLink>
           <NavLink to="/bio" className="navLink">

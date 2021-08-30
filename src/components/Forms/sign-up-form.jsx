@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import "../../scss/wrap.scss";
 import Input from "./Input";
+import { AuthContext } from "./../../context/auth-context";
 
 const axios = require("axios");
 const api = "http://localhost:8080/";
@@ -15,7 +16,9 @@ const SignUpForm = (props) => {
     lastName: "",
     phoneNumber: "",
   });
+  const history = useHistory();
   const [error, setError] = useState({ check: false, message: "" });
+  const auth = useContext(AuthContext);
 
   const handleChange = ({ currentTarget: input }) => {
     const { value, name } = input;
@@ -43,6 +46,9 @@ const SignUpForm = (props) => {
           "Content-Type": "application/json",
         }
       );
+
+      auth.login(result.data);
+      history.push("/");
     } catch (err) {
       const { message } = err.response.data;
       setError({ check: true, message: message });

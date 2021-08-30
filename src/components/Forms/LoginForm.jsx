@@ -5,6 +5,7 @@ import "../../scss/wrap.scss";
 import Input from "./Input";
 import { AuthContext } from "./../../context/auth-context";
 import ErrorBox from "./error-box";
+
 const axios = require("axios");
 
 const api = "http://localhost:8080/";
@@ -18,7 +19,6 @@ const LoginForm = (props) => {
   const history = useHistory();
   const auth = useContext(AuthContext);
 
-  console.log(error);
   const submitHandler = async (e) => {
     e.preventDefault();
     console.log(auth);
@@ -35,14 +35,14 @@ const LoginForm = (props) => {
           "Content-Type": "application/json",
         }
       );
+      console.log(result.data);
 
-      userData = result.data;
-
-      auth.firstName = userData.firstName;
-      auth.userID = userData.userID;
-      auth.token = userData.token;
-
-      auth.email = userData.email;
+      auth.login(
+        result.data.firstName,
+        result.data.userID,
+        result.data.token,
+        result.data.email
+      );
 
       history.push("/");
     } catch (err) {

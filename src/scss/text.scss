@@ -10,7 +10,7 @@ $text-shadow-col: green;
   font-size: 4rem;
   color: black;
   font-family: Arial, Helvetica, sans-serif;
-
+  margin-bottom: 0;
   font-weight: bold;
   // text-shadow: 0.25rem 0.25rem 0 $text-shadow-col;
   @include centerText();
@@ -19,7 +19,15 @@ $text-shadow-col: green;
     // text-shadow: 0.2rem 0.175rem 0 $text-shadow-col;
   }
 }
-
+.subTitle {
+  font-size: 1.5rem;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  @include centerText();
+  margin: 0;
+  padding: 0;
+}
 h1 {
   display: block;
   font-size: 2em;
@@ -30,15 +38,39 @@ p {
   display: block;
   &.logged-in-text {
     //@include flexEnd();
-    color: $darkblue;
-    margin: 0.75rem 2rem;
-    font-size: 1.125rem;
-    @media only screen and (max-width: 36em) {
-      margin: 0.5rem 1rem;
+    color: black;
+
+    padding: $margin-s 1rem;
+    margin: 0;
+    font-size: $font-s;
+    @media only screen and (min-width: $mq-48) {
+      padding: $margin-s 2rem;
+    }
+
+    &.logged-in-actions {
+      cursor: pointer;
+      transition: background-color 0.25s, color 0.25s;
+      &:hover {
+        background-color: green;
+        color: white;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
     }
   }
 }
 
 .accHeader {
   color: white;
+  @include textStyle($font-l, 400, white);
+  padding: 0.5rem 0;
+  &::marker {
+    color: $blue;
+  }
+}
+
+h6 {
+  @include textStyle($font-m, 400, black);
 }

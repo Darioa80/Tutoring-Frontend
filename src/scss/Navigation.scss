@@ -40,9 +40,9 @@
   @include flexRowEnd();
   color: $blue;
   text-decoration: underline;
-  margin: 0.75rem 1rem;
-  @media only screen and (max-width: 36em) {
-    margin: 0.5rem 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0rem;
+  @media only screen and (min-width: $mq-48) {
+    padding: 0.5rem 1.5rem 0.5rem 0rem;
   }
 }
 
@@ -51,16 +51,40 @@
 }
 
 div {
-  .logged-in-div {
+  &.logged-in-div {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-end;
+    button {
+      margin-right: 1rem;
+    }
+    .logged-in-background {
+      background-color: $blue;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      p {
+        &#spacer {
+          margin: $margin-s 0;
+        }
+      }
+    }
   }
 }
 
 button {
   &#tutoring-request {
-    @include button-styling(20%, $upper-spacing-sm);
+    @include button-styling($upper-spacing-sm);
+    width: 35%;
+
+    @media only screen and (min-width: $mq-48) {
+      width: 28%;
+    }
+    @media only screen and (min-width: $mq-60) {
+      width: 20%;
+    }
   }
 }

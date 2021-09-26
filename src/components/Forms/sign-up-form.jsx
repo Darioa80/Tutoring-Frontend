@@ -25,12 +25,11 @@ const SignUpForm = (props) => {
     let newValue = { ...formData };
 
     newValue[name] = value;
-    console.log(newValue);
+
     setFormData(newValue);
   };
 
   const submitHandler = async (e) => {
-    console.log("hi");
     e.preventDefault();
     try {
       const result = await axios.post(

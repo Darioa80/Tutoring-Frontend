@@ -19,13 +19,15 @@ form {
 
   button {
     &.login-form-button {
-      @include button-styling(100%, $upper-spacing-sm * 3);
+      @include button-styling($upper-spacing-sm * 3);
+      width: 100%;
       &.error-spacing {
         margin-top: 0.5rem;
       }
     }
     &.sign-up-button {
-      @include button-styling(60%, $upper-spacing-sm * 3);
+      @include button-styling($upper-spacing-sm * 3);
+      width: 60%;
       &.error-spacing {
         margin-top: 0.5rem;
       }
@@ -56,7 +58,7 @@ form {
     margin: 0 3rem;
   }
 }
-.flexCol {
+.flex-col {
   @include flexColumn();
 }
 .home-grid {
@@ -197,14 +199,14 @@ hr {
     padding: 0 0.5rem;
     margin: 0.5rem 0.5rem;
     select {
-      width: 50%;
+      width: 55%;
       height: 1.5rem;
       font-weight: bold;
       color: $darkblue;
     }
   }
   .react-datepicker-wrapper {
-    width: 50%;
+    width: 55%;
     .react-datepicker__input-container {
       input[type="text"] {
         display: block;
@@ -283,37 +285,247 @@ hr {
 .subjects-wrapper {
   margin: 0 1rem;
   display: flex;
-  width: 95%;
-  flex-direction: row;
 
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
   flex-wrap: wrap;
   @media only screen and (min-width: $mq-48) {
-    margin: 0 6rem;
+    margin: 0 8rem;
     flex-direction: row;
-    width: 85%;
-    justify-content: space-evenly;
+    align-items: flex-start;
+    justify-content: center;
   }
   .subject-outer {
-    width: 100%;
-    background-color: $darkblue;
-    border-radius: $border-radius-small;
+    width: 80%;
+    background-color: transparent;
+    height: 100%;
+    border: 3px solid black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
+    margin: 0.25rem 1rem;
+    text-align: center;
+    @media only screen and (min-width: $mq-48) {
+      width: 40%;
+      border: 3px solid transparent;
+    }
+
+    .subject-image-background {
+      background-color: white;
+      width: 100%;
+    }
+    img {
+      width: 100%;
+      height: auto;
+      max-height: 10rem;
+      @media only screen and (min-width: $mq-48) {
+        max-height: 15rem;
+      }
+    }
+    h6 {
+      align-self: center;
+      @include button-styling(1rem);
+      border: $border-width-s solid black;
+      margin-bottom: 1rem;
+      &:hover,
+      &:active {
+        border: $border-width-m solid black;
+      }
+    }
+
+    p {
+      &#topics {
+        margin: 0;
+
+        @include textStyle($font-s, 700, black);
+
+        span {
+          @include textStyle($font-s, 400, $darkgrey);
+          font-style: italic;
+          width: 80%;
+          text-align: center;
+        }
+      }
+      @include textStyle($font-s, 200, black);
+    }
+  }
+}
+
+.appointments-outer {
+  h1 {
+    text-align: center;
+    span {
+      color: $blue;
+      text-decoration: underline;
+    }
+  }
+}
+.appointments-display {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  .appointment-block-wrapper {
+    margin: 2rem 1rem;
+    background-color: $blue;
+    padding: 0 2rem;
+    border-radius: $border-radius-big;
+    border: 3px solid transparent;
+    box-shadow: 10px 5px 5px $darkgrey;
+    width: 80%;
+    &:hover,
+    &:active {
+      border: 4px solid $mainred;
+    }
+    @media only screen and (min-width: $mq-48) {
+      max-width: 22.5%;
+    }
+    .appointment-block-flex {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-content: center;
+
+      h4 {
+        font-size: $font-m;
+        text-decoration: underline;
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+      .appointment-block-padding {
+        padding-left: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h6 {
+          margin: 0;
+          line-height: 1rem;
+          font-weight: bold;
+          font-size: 1.25rem;
+          display: inline-block;
+          padding: 0 0.5rem;
+          p {
+            font-size: $font-m;
+            font-weight: 300;
+            display: inline-block;
+          }
+        }
+        form {
+          &#edit-app-form {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            .react-datepicker-wrapper {
+              margin: 1rem 0;
+            }
+            select {
+              margin: 1rem 0;
+              width: 70%;
+            }
+            h6 {
+              padding: 0;
+            }
+            p {
+              margin-top: 0;
+              font-style: italic;
+
+              span {
+                display: inline;
+                text-align: right;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+      .appointment-block-buttons-wrapper {
+        margin: 1rem 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-content: center;
+        width: 100%;
+        button {
+          &#edit,
+          &#submit {
+            @include button-styling(0);
+            background-color: green;
+          }
+          &#cancel {
+            background-color: red;
+            border: 2px solid black;
+            border-radius: $border-radius-small;
+            color: white;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-wrapper {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  .modal-outer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
-    margin: 1rem;
+    width: 80%;
+    background-color: $lightgrey;
+    border-radius: $border-radius-big;
+    border: $border-width-m solid green;
     @media only screen and (min-width: $mq-48) {
-      width: 40%;
+      width: 30%;
     }
-    #subject-img-wrapper {
-      border: 3rem black;
+    &#delete-modal {
+      border: $border-width-m solid red;
+    }
+    .modal-message {
       width: 80%;
+      text-align: center;
+      h6 {
+        color: black;
+      }
     }
-    img {
-      height: 40vh;
-      width: 100%;
+    .modal-buttons {
+      // padding-top: 1rem;
+      padding-bottom: 2rem;
+      width: 80%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly;
+      align-items: center;
+      button {
+        width: 40%;
+        @media only screen and (min-width: $mq-48) {
+          width: 33%;
+        }
+        &#confirm {
+          @include button-styling(0);
+          background-color: green;
+        }
+        &#cancel {
+          @include button-styling(0);
+          background-color: red;
+        }
+      }
     }
   }
 }

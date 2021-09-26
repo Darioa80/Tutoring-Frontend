@@ -2,10 +2,14 @@ import React from "react";
 
 import RequestForm from "./../components/Forms/request-form";
 import "../scss/wrap.scss";
+import { useParams } from "react-router-dom";
+
 const RequestPage = () => {
+  const params = useParams();
+  console.log(params);
   return (
     <div className="center-wrapper">
-      <RequestForm />
+      <RequestForm subject_id={params.subject_id} />
     </div>
   );
 };

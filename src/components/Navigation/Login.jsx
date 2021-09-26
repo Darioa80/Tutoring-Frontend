@@ -6,18 +6,21 @@ import "../../scss/wrap.scss";
 import "../../scss/Navigation.scss";
 const LogIn = () => {
   const history = useHistory();
-  const { firstName } = useContext(AuthContext);
-  const [name, setName] = useState("");
-  useEffect(() => {
-    setName(firstName);
-  }, [firstName]);
+  const { firstName, logout, token, userID } = useContext(AuthContext);
+
+  const [stateToken, setStateToken] = useState(token);
+
+  const callLogout = () => {
+    setStateToken(null);
+    logout();
+  };
 
   const RequestSession = () => {
-    history.push("/request");
+    history.push("/requests");
   };
   return (
     <React.Fragment>
-      {!name && (
+      {!token && (
         <nav className="login-nav">
           <NavLink className="login-nav-spacing" to="/signup">
             Sign Up
@@ -28,11 +31,22 @@ const LogIn = () => {
           </NavLink>
         </nav>
       )}
-      {name && (
+      {token && (
         <React.Fragment>
           <div className="logged-in-div">
-            <p className="logged-in-text">Welcome back, {name}</p>
+            <div className="logged-in-background">
+              <p className="logged-in-text logged-in-actions">
+                <Link to={`requests/me`}>My Appointments</Link>
+              </p>
 
+              {/* <p id="spacer">{` | `}</p> */}
+              <p className="logged-in-text ">Welcome back, {firstName}</p>
+              {/* <p id="spacer">{` | `}</p> */}
+              <p
+                className="logged-in-text logged-in-actions"
+                onClick={callLogout}
+              >{`Logout`}</p>
+            </div>
             <button id="tutoring-request" onClick={RequestSession}>
               Request a Tutoring Session
             </button>

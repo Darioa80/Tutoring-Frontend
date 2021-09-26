@@ -8,6 +8,7 @@ const MainGrid = () => {
     "Award Winning Tutor",
     "B.S. + M.S in Engineering ",
     "3+ years of STEM Tutoring experience",
+    "Local Community Leader",
   ];
 
   return (
@@ -20,9 +21,11 @@ const MainGrid = () => {
           />
         </div>
         <div className="home-main-grid-acc">
-          {acc.map((accItem, Index) => (
-            <h2 className="accHeader">{accItem}</h2>
-          ))}
+          <ul>
+            {acc.map((accItem, Index) => (
+              <li className="accHeader">{accItem}</li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

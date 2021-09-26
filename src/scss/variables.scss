@@ -1,5 +1,5 @@
 //Media Queries
-$mq-48: 48em;
+$mq-48: 48rem;
 $mq-60: 60rem;
 
 //colors
@@ -7,25 +7,34 @@ $mainred: rgb(184, 0, 86);
 $blue: rgb(0, 198, 224);
 $darkblue: rgb(0, 34, 224);
 $lightgrey: rgb(177, 176, 176);
+$darkgrey: #222222;
 
 //fonts
+$font-l: 2rem;
+$font-m: 1.5rem;
+$font-s: 1rem;
+$font-xs: 0.8rem;
 
 //border
 $border-radius-big: 3rem;
 $border-radius-small: 0.5rem;
+$border-width-m: 4px;
+$border-width-s: 2px;
 
 //spacing
+
 $upper-spacing-sm: 0.5rem;
+$margin-s: 0.75rem;
 
 //mixins
-@mixin button-styling($width, $margin-top) {
+@mixin button-styling($margin-top) {
   margin-top: $margin-top;
   padding: 0.5rem 0.75rem;
   border-radius: $border-radius-small;
   color: white;
-  border-color: black;
+
   background-color: $mainred;
-  width: $width;
+  border: 2px solid black;
   cursor: pointer;
 }
 
@@ -34,4 +43,10 @@ $upper-spacing-sm: 0.5rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@mixin textStyle($fontSize, $fontWeight, $color) {
+  font-size: $fontSize;
+  font-weight: $fontWeight;
+  color: $color;
 }

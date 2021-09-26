@@ -22,12 +22,15 @@ export const useAuth = () => {
         firstName,
         userId: userId,
         token: token,
+        email,
         expiration: tokenExpirationDate.toISOString(),
       })
     );
+    console.log("log - in - timing");
   };
 
   const logout = () => {
+    console.log("log out");
     setToken(null);
     setUserID(null);
     localStorage.removeItem("userData");
@@ -35,6 +38,7 @@ export const useAuth = () => {
 
   useEffect(() => {
     //will run once after the render cycle and allows the user to stay logged in
+    console.log("hi");
     const storedData = JSON.parse(localStorage.getItem("userData"));
     if (
       storedData &&
@@ -42,10 +46,10 @@ export const useAuth = () => {
       new Date(storedData.expiration) > new Date()
     ) {
       //compares expiration date to current time
-
+      console.log("inside userEffect", storedData);
       login(
         storedData.firstName,
-        storedData.userID,
+        storedData.userId,
         storedData.token,
         storedData.email
       );

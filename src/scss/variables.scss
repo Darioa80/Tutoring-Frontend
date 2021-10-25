@@ -1,6 +1,7 @@
 //Media Queries
-$mq-48: 48rem;
-$mq-60: 60rem;
+$mq-48: 1200px;
+$mq-1000: 1000px;
+$mq-60: 600px;
 
 //colors
 $mainred: rgb(184, 0, 86);
@@ -32,7 +33,7 @@ $margin-s: 0.75rem;
   padding: 0.5rem 0.75rem;
   border-radius: $border-radius-small;
   color: white;
-
+  transition: opacity 0.75s ease;
   background-color: $mainred;
   border: 2px solid black;
   cursor: pointer;

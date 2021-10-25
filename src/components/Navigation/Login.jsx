@@ -4,7 +4,7 @@ import { NavLink, Link, useHistory } from "react-router-dom";
 import { AuthContext } from "./../../context/auth-context";
 import "../../scss/wrap.scss";
 import "../../scss/Navigation.scss";
-const LogIn = () => {
+const LogInNav = () => {
   const history = useHistory();
   const { firstName, logout, token, userID } = useContext(AuthContext);
 
@@ -57,4 +57,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default LogInNav;

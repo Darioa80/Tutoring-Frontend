@@ -8,6 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import Input from "./Input";
 import { AuthContext } from "../../context/auth-context";
 import { parseDate, ConvertTime } from "../../util/date-time";
+import { validateSubmission } from "../../util/validation";
+import ErrorBox from "./error-box";
 
 const axios = require("axios");
 const api = "http://localhost:8080/";
@@ -29,7 +31,12 @@ const RequestForm = (props) => {
     location: "",
     topics: "",
   });
-  const [error, setError] = useState({ check: false, message: "" });
+  const [error, setError] = useState({
+    subject_id: { error: false, message: "" },
+    time: { error: false, message: "" },
+    date: { error: false, message: "" },
+  });
+  const [disable, setDisable] = useState({ disable: true, message: "" });
   let id_subjectName = {};
 
   const SetUpTimes = async (date) => {
@@ -45,6 +52,27 @@ const RequestForm = (props) => {
       }
     }
   };
+
+  useEffect(() => {
+    let disable = false;
+    let message = "";
+    console.log(error);
+    for (const [key, value] of Object.entries(error)) {
+      if (value.error == true) {
+        disable = true;
+        message = value.message;
+        break;
+      }
+    }
+
+    setDisable({ disable, message });
+  }, [error]);
+
+  useEffect(() => {
+    console.log("checking for them errors...");
+    const { subject_id, time, date } = formData;
+    setError(validateSubmission({ subject_id, date, time }));
+  }, [formData]);
 
   useEffect(async () => {
     try {
@@ -82,9 +110,6 @@ const RequestForm = (props) => {
       history.push("/");
     } catch (err) {
       console.log(err);
-      // const { message } = err.response.data;
-      // setError({ check: true, message: message });
-      // console.log(message);
     }
   };
 
@@ -124,7 +149,6 @@ const RequestForm = (props) => {
               >
                 <option value="" disabled selected></option>
                 {subjects.map((value, index) => {
-                  console.log(value);
                   return (
                     <option
                       key={"sub" + index}
@@ -161,8 +185,13 @@ const RequestForm = (props) => {
           </div>
           <hr />
           <span id="cost">{`Cost: $${price}`}</span>
-
-          <button className="sign-up-button">Send Request</button>
+          {disable.message != "" && <ErrorBox message={disable.message} />}
+          <button
+            className={`sign-up-button ${disable.disable ? `disabled` : ``}`}
+            disabled={disable.disable}
+          >
+            Send Request
+          </button>
         </div>
       </form>
     </div>

@@ -1,7 +1,8 @@
 import React from "react";
 
 const Input = (props) => {
-  const { name, label, message, inputData, handleChange, placeholder } = props;
+  const { name, label, message, inputData, handleChange, placeholder, type } =
+    props;
 
   return (
     <React.Fragment>
@@ -9,7 +10,7 @@ const Input = (props) => {
         <label>{label}</label>
         <input
           name={name}
-          type="text"
+          type={type ? type : "text"}
           onChange={handleChange}
           value={inputData}
           placeholder={placeholder}

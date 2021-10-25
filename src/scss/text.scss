@@ -64,10 +64,13 @@ p {
 
 .accHeader {
   color: white;
-  @include textStyle($font-l, 400, white);
+  @include textStyle(1.75rem, 400, white);
   padding: 0.5rem 0;
   &::marker {
     color: $blue;
+  }
+  @media only screen and (min-width: $mq-60) {
+    @include textStyle($font-l, 400, white);
   }
 }
 

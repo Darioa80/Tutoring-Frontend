@@ -3,6 +3,7 @@ import "../scss/text.scss";
 import "../scss/wrap.scss";
 import MainGrid from "../components/main-grid";
 import Login from "../components/Navigation/Login";
+import { BioBlocks } from "./../components/home-bio-blocks";
 const Home = () => {
   return (
     <React.Fragment>
@@ -12,6 +13,7 @@ const Home = () => {
           <h3 className="subTitle">STEM Tutoring Services by Dario</h3>
           <hr />
           <MainGrid />
+          <BioBlocks />
         </div>
       </div>
     </React.Fragment>

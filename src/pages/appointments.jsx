@@ -40,7 +40,6 @@ const AppointmentsPage = () => {
 
   return (
     <React.Fragment>
-      <LogIn />
       <div className="appointments-wrapper">
         <div className="appointments-outer">
           <h1>

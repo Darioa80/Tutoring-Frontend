@@ -7,7 +7,7 @@ const MainGrid = () => {
     "Bilingual",
     "Award Winning Tutor",
     "B.S. + M.S in Engineering ",
-    "3+ years of STEM Tutoring experience",
+    "2+ years of STEM Tutoring experience",
     "Local Community Leader",
   ];
 
@@ -16,6 +16,7 @@ const MainGrid = () => {
       <div className="home-grid">
         <div className="home-main-grid-img">
           <img
+            id="home"
             src="dario-main.jpg"
             alt="Picture of Dario Andrade Mendoza in Washington DC"
           />

@@ -1,10 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 
 import "../../scss/wrap.scss";
 import Input from "./Input";
 import { AuthContext } from "./../../context/auth-context";
 import ErrorBox from "./error-box";
+import { validation } from "../../util/validation";
+import { object } from "joi";
 
 const axios = require("axios");
 
@@ -15,9 +17,34 @@ const LoginForm = (props) => {
     email: "",
     password: "",
   });
-  const [error, setError] = useState({ check: false, message: "" });
+  const [error, setError] = useState({ email: "", password: "" });
+  const [disable, setDisable] = useState(true);
+  const [message, setMessage] = useState("");
   const history = useHistory();
   const auth = useContext(AuthContext);
+
+  const returnFirstErrors = (errors) => {
+    console.log(errors);
+    let error = {
+      error: false,
+      message: "",
+    };
+    for (const [key, value] of Object.entries(errors)) {
+      if (value != "") {
+        error.error = true;
+        error.message = value;
+        break;
+      }
+    }
+    return error;
+  };
+
+  useEffect(() => {
+    console.log("hi");
+    let result = returnFirstErrors(error);
+    setDisable(result.error);
+    setMessage(result.message);
+  }, [error]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -36,13 +63,14 @@ const LoginForm = (props) => {
         }
       );
       console.log(result.data);
-
-      auth.login(
-        result.data.firstName,
-        result.data.userID,
-        result.data.token,
-        result.data.email
-      );
+      const { firstName, userID, token, email } = result.data;
+      auth.login(firstName, userID, token, email);
+      // auth.login(
+      //   result.data.firstName,
+      //   result.data.userID,
+      //   result.data.token,
+      //   result.data.email
+      // );
 
       history.push("/");
     } catch (err) {
@@ -61,6 +89,7 @@ const LoginForm = (props) => {
     newValue[name] = value;
     //console.log(newValue);
     setFormData(newValue);
+    setError(validation(newValue));
   };
 
   return (
@@ -72,23 +101,28 @@ const LoginForm = (props) => {
             <Input
               name="email"
               label="Email"
+              type="email"
               handleChange={handleChange}
               inputData={formData["email"]}
               placeholder=""
             />
             <Input
               name="password"
+              type="password"
               label="Password"
               handleChange={handleChange}
               inputData={formData["password"]}
             />
-            {error.check && <ErrorBox message={error.message} />}
+            {disable && <ErrorBox message={message} />}
             <button
-              className={
-                error.check
-                  ? "login-form-button error-spacing"
-                  : "login-form-button"
-              }
+              type="submit"
+              className={`
+                ${
+                  message
+                    ? "login-form-button error-spacing"
+                    : "login-form-button"
+                } ${disable ? " disabled" : ""}
+                  `}
             >
               Log in
             </button>

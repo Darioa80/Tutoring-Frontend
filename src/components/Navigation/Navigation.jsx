@@ -14,7 +14,7 @@ const Navigation = (props) => {
           <NavLink to="/subjects" className="navLink">
             Subjects
           </NavLink>
-          <NavLink to="/bio" className="navLink">
+          <NavLink to="/testimonials" className="navLink">
             Testimonials
           </NavLink>
           <NavLink to="/bio" className="navLink">

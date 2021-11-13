@@ -10,6 +10,7 @@ import { AuthContext } from "../../context/auth-context";
 import { parseDate, ConvertTime } from "../../util/date-time";
 import { validateSubmission } from "../../util/validation";
 import ErrorBox from "./error-box";
+import HTTPModal from "../HTTPModal";
 
 const axios = require("axios");
 const api = "http://localhost:8080/";
@@ -18,6 +19,7 @@ const RequestForm = (props) => {
   const selectedRef = useRef(null);
   const auth = useContext(AuthContext);
   const history = useHistory();
+  const [show, setShow] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
   const [pricesObject, setPricesObject] = useState({});
   const [price, setPrice] = useState(0);
@@ -133,69 +135,72 @@ const RequestForm = (props) => {
     setFormData(currentState);
   }, [selectedDate]);
 
-  return (
-    <div className="form-parent">
-      <form onSubmit={submitHandler} className="vertical-form-wrap">
-        <h1>Tutoring Request</h1>
+  if (!show) {
+    return (
+      <div className="form-parent">
+        <form onSubmit={submitHandler} className="vertical-form-wrap">
+          <h1>Tutoring Request</h1>
 
-        <div className="wrap-signup-form-field">
-          <div className="row-form-fields-wrap">
-            <div className="flex-form-content">
-              <label>Select Subject:</label>
-              <select
-                ref={selectedRef}
-                id="subject"
-                onChange={handleSelectChange}
-              >
-                <option value="" disabled selected></option>
-                {subjects.map((value, index) => {
-                  return (
-                    <option
-                      key={"sub" + index}
-                      value={index + 1}
-                      selected={props.subject_id == index + 1 ? true : false}
-                    >
-                      {value}
-                    </option>
-                  );
-                })}
-              </select>
-              <label>Select Date:</label>
-              <DatePicker
-                selected={selectedDate}
-                onChange={(date) => {
-                  setSelectedDate(date);
-                }}
-              />
-              <label>Select Time:</label>
-              <select id="time" onChange={handleSelectChange}>
-                <option value="" disabled selected>
-                  {selectedDate ? "" : "Choose date first"}
-                </option>
+          <div className="wrap-signup-form-field">
+            <div className="row-form-fields-wrap">
+              <div className="flex-form-content">
+                <label>Select Subject:</label>
+                <select
+                  ref={selectedRef}
+                  id="subject"
+                  onChange={handleSelectChange}
+                >
+                  <option value="" disabled selected></option>
+                  {subjects.map((value, index) => {
+                    return (
+                      <option
+                        key={"sub" + index}
+                        value={index + 1}
+                        selected={props.subject_id == index + 1 ? true : false}
+                      >
+                        {value}
+                      </option>
+                    );
+                  })}
+                </select>
+                <label>Select Date:</label>
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={(date) => {
+                    setSelectedDate(date);
+                  }}
+                />
+                <label>Select Time:</label>
+                <select id="time" onChange={handleSelectChange}>
+                  <option value="" disabled selected>
+                    {selectedDate ? "" : "Choose date first"}
+                  </option>
 
-                {times.map((value, index) => {
-                  return (
-                    <option key={"time" + index} value={value}>
-                      {ConvertTime(value)}
-                    </option>
-                  );
-                })}
-              </select>
+                  {times.map((value, index) => {
+                    return (
+                      <option key={"time" + index} value={value}>
+                        {ConvertTime(value)}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
             </div>
+            <hr />
+            <span id="cost">{`Cost: $${price}`}</span>
+            {disable.message != "" && <ErrorBox message={disable.message} />}
+            <button
+              className={`sign-up-button ${disable.disable ? `disabled` : ``}`}
+              disabled={disable.disable}
+            >
+              Send Request
+            </button>
           </div>
-          <hr />
-          <span id="cost">{`Cost: $${price}`}</span>
-          {disable.message != "" && <ErrorBox message={disable.message} />}
-          <button
-            className={`sign-up-button ${disable.disable ? `disabled` : ``}`}
-            disabled={disable.disable}
-          >
-            Send Request
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+        </form>
+      </div>
+    );
+  } else {
+  }
 };
 
 export default RequestForm;

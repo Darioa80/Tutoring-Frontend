@@ -8,7 +8,7 @@ const Home = () => {
   return (
     <React.Fragment>
       <div className="wrapper-padding">
-        <div className="flexCol">
+        <div className="flex-col">
           <h1 className="mainTitle">Be Curious.</h1>
           <h3 className="subTitle">STEM Tutoring Services by Dario</h3>
           <hr />

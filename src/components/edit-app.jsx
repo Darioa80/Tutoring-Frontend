@@ -6,6 +6,7 @@ import { ConvertTime } from "./../util/date-time";
 
 import { AuthContext } from "./../context/auth-context";
 import ErrorBox from "./Forms/error-box";
+import { validateEmpty } from "./../util/validation";
 
 const axios = require("axios");
 const api = "http://localhost:8080/";
@@ -20,9 +21,11 @@ const EditApp = (props) => {
     subject_id: props.subject_id,
     time: "",
     date: "",
-    location: "",
+    location: "virtual",
     topics: "",
   });
+  const [message, setMessage] = useState({ time: "new", date: "new" });
+  const [disable, setDisable] = useState(true);
 
   const SetUpTimes = async (date) => {
     if (date) {
@@ -45,13 +48,32 @@ const EditApp = (props) => {
   useEffect(() => {
     let currentState = { ...formData };
     currentState.date = selectedDate;
-    setFormData(currentState);
+    const error = validateEmpty(selectedDate, "Date");
+    if (error === "") {
+      setFormData(currentState);
+    }
   }, [selectedDate]);
 
+  useEffect(() => {
+    const timeError = validateEmpty(formData.time, "Time");
+    const dateError = validateEmpty(formData.date, "Date");
+
+    setMessage({ time: timeError, date: dateError });
+  }, [formData]);
+
+  useEffect(() => {
+    if ((message.date === "") & (message.time === "")) {
+      setDisable(false);
+    }
+  }, [message]);
+
   const handleSelectChange = (e) => {
-    let currentState = { ...formData };
-    currentState.time = e.target.value;
-    setFormData(currentState);
+    const error = validateEmpty(e.target.value, "Date");
+    if (error === "") {
+      let currentState = { ...formData };
+      currentState.time = e.target.value;
+      setFormData(currentState);
+    }
   };
 
   const handleEdit = () => {
@@ -63,17 +85,14 @@ const EditApp = (props) => {
       location: "",
       topics: "",
     });
-    console.log("handle edit");
+
     props.handleEdit();
   };
 
-  const openModal = () => {
-    console.log("openModal");
+  const openModal = (e) => {
     setIsOpen(!isOpen);
   };
   const handleSubmit = async (e) => {
-    console.log("submit");
-
     const headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth.token,
@@ -137,7 +156,11 @@ const EditApp = (props) => {
         <button onClick={handleEdit} id="cancel">
           Cancel Edit
         </button>
-        <button onClick={openModal} id="submit">
+        <button
+          className={disable ? "disabled" : ""}
+          onClick={openModal}
+          id="submit"
+        >
           Submit
         </button>
       </div>

@@ -64,7 +64,7 @@ p {
 
 .accHeader {
   color: white;
-  @include textStyle(1.75rem, 400, white);
+  @include textStyle(1.33333rem, 400, white);
   padding: 0.5rem 0;
   &::marker {
     color: $blue;

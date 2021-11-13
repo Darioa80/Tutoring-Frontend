@@ -18,13 +18,11 @@ const LoginForm = (props) => {
     password: "",
   });
   const [error, setError] = useState({ email: "", password: "" });
-  const [disable, setDisable] = useState(true);
   const [message, setMessage] = useState("");
   const history = useHistory();
   const auth = useContext(AuthContext);
 
   const returnFirstErrors = (errors) => {
-    console.log(errors);
     let error = {
       error: false,
       message: "",
@@ -42,13 +40,13 @@ const LoginForm = (props) => {
   useEffect(() => {
     console.log("hi");
     let result = returnFirstErrors(error);
-    setDisable(result.error);
+
     setMessage(result.message);
   }, [error]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(auth);
+
     let userData = "";
 
     try {
@@ -75,8 +73,8 @@ const LoginForm = (props) => {
       history.push("/");
     } catch (err) {
       const { message } = err.response.data;
-      setError({ check: true, message: message });
-      console.log(message);
+      //setError({ check: true, message: message });
+      setMessage(message);
     }
 
     //console.log(userData);
@@ -113,7 +111,7 @@ const LoginForm = (props) => {
               handleChange={handleChange}
               inputData={formData["password"]}
             />
-            {disable && <ErrorBox message={message} />}
+            {message !== "" && <ErrorBox message={message} />}
             <button
               type="submit"
               className={`
@@ -121,7 +119,7 @@ const LoginForm = (props) => {
                   message
                     ? "login-form-button error-spacing"
                     : "login-form-button"
-                } ${disable ? " disabled" : ""}
+                } ${message !== "" ? " disabled" : ""}
                   `}
             >
               Log in

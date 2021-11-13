@@ -18,7 +18,7 @@ export const BioBlocks = () => {
       ],
     },
     {
-      title: "2+ years of STEM Tutoring Experience",
+      title: "2+ years of STEM Tutoring",
       points: [
         "1.5 years tutoring all levels of Math and Physics at Pima Community College's West Campus Learning Center",
         "Summers tutoring math at the Univeristy of Arizona",
@@ -49,13 +49,13 @@ export const BioBlocks = () => {
 
 const SingleBioBlock = (props) => {
   const { title, points } = props;
-  console.log(points);
-  console.log(Array.isArray(points));
+
   return (
     <div className="single-bio-block-outer">
-      <ul>
-        <li className="accHeader">{title}</li>
-      </ul>
+      <h3>
+        <u>{title}</u>
+      </h3>
+
       <ul id="secondary">
         {points.map((value, index) => {
           return <li key={"sub" + index}>{value}</li>;

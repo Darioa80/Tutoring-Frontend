@@ -9,6 +9,7 @@ import {
 import Navigation from "./components/Navigation/Navigation.jsx";
 import Home from "./pages/home";
 import Login from "./pages/login";
+import Bio from "./pages/bio";
 import RequestPage from "./pages/request";
 import AppointmentsPage from "./pages/appointments";
 import { Subjects } from "./pages/subjects";
@@ -48,6 +49,7 @@ function App() {
                 exact
                 component={RequestPage}
               />
+              <Route path="/bio" exact component={Bio} />
             </Switch>
           )}
           {!token && (
@@ -56,6 +58,7 @@ function App() {
               <Route path="/login" exact component={Login} />
               <Route path="/signup" exact component={SignUp} />
               <Route path="/subjects" exact component={Subjects} />
+              <Route path="/bio" exact component={Bio} />
             </Switch>
           )}
         </main>

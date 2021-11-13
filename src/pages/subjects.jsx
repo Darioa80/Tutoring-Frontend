@@ -60,7 +60,7 @@ export const Subjects = () => {
     getSubjects();
   }, []);
   return (
-    <React.Fragment>
+    <div className="subjects-page-wrapper">
       <div className="flex-col">
         {/* <button id="tutoring-request" onClick={RequestSession}>
           Request a Tutoring Session
@@ -68,8 +68,8 @@ export const Subjects = () => {
         <h2>Subjects</h2>
         <p>
           Subjects listed are offered for tutoring. The cost displayed is for a
-          1 hour session. To request a session, click on the title of any of the
-          subjects.
+          1 hour session. To request a session with your account, click on the
+          title of any of the subjects.
         </p>
       </div>
       <div className="subjects-wrapper">
@@ -88,7 +88,7 @@ export const Subjects = () => {
           );
         })}
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

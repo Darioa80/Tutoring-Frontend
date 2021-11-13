@@ -9,12 +9,17 @@ $blue: rgb(0, 198, 224);
 $darkblue: rgb(0, 34, 224);
 $lightgrey: rgb(177, 176, 176);
 $darkgrey: #222222;
+$hover-green: rgba(0, 256, 0, 0.9);
 
 //fonts
 $font-l: 2rem;
 $font-m: 1.5rem;
 $font-s: 1rem;
 $font-xs: 0.8rem;
+
+//wrapper widths
+$main-fs: 90%;
+$main-mobile: 95%;
 
 //border
 $border-radius-big: 3rem;
@@ -36,7 +41,14 @@ $margin-s: 0.75rem;
   transition: opacity 0.75s ease;
   background-color: $mainred;
   border: 2px solid black;
+}
+
+button {
   cursor: pointer;
+  &.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
 }
 
 @mixin flexColumn() {

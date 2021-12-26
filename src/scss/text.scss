@@ -69,11 +69,12 @@ p {
   &::marker {
     color: $blue;
   }
-  @media only screen and (min-width: $mq-60) {
+  @media only screen and (min-width: $mq-1000) {
     @include textStyle($font-l, 400, white);
   }
 }
 
 h6 {
   @include textStyle($font-m, 400, black);
+  cursor: pointer;
 }

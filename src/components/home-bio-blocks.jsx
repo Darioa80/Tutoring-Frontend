@@ -34,13 +34,11 @@ export const BioBlocks = () => {
       ],
     },
   ];
-  console.log(Array.isArray(blocks));
   return (
     <div className="bio-block-wrapper">
       <div className="bio-block-flex">
         {blocks.map((value, index) => {
-          console.log(value);
-          return <SingleBioBlock title={value.title} points={value.points} />;
+          return <SingleBioBlock key={"bio-block" + index}title={value.title} points={value.points} />;
         })}
       </div>
     </div>

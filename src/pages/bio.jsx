@@ -4,16 +4,16 @@ import text from "../util/bio-text";
 const Bio = () => {
   console.log(text);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const tab_titles = ["About", "2012", "2014", "2015", "2019", "2020", "2021"];
+  const [currentSlide, setCurrentSlide] = useState(6);
+  const tab_titles = ["2012", "2014", "2015", "2019", "2020", "2021", "About"];
   const tab_images = [
-    "dario-2.jpg",
     "dario-tucson.jpg",
     "dario-2014.jpg",
     "dario-2015.jpg",
     "dario-wgrc.jpg",
     "dario-2020.jpg",
     "dario-final.jpg",
+    "dario-2.jpg"
   ];
   const handleTabChange = (e) => {
     tab_titles.map((element, index) => {

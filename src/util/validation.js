@@ -19,19 +19,19 @@ export const validateEmpty = (string, label) => {
 
 export const validateSubmission = (formValues) => {
   let errors = {};
-  console.log(formValues);
   for (const [key, value] of Object.entries(formValues)) {
     const errorString = validateEmpty(value, key);
 
-    errors[key] = { error: errorString == "" ? false : true, message: "" };
+    errors[key] = { error: errorString == "" ? false : true, message: errorString };
 
-    if (key == "date" && value) {
+    if (key == "date" && value !== "") {
       const today = new Date();
       if (new Date(value).getTime() <= today.getTime()) {
         errors[key].error = true;
         errors[key].message = `Cannot choose a date before today: ${today}`;
       }
     }
+
   }
   console.log(errors);
   return errors;

@@ -6,7 +6,7 @@ import { ConvertTime } from "./../util/date-time";
 
 import { AuthContext } from "./../context/auth-context";
 import ErrorBox from "./Forms/error-box";
-import { validateEmpty } from "./../util/validation";
+import { validateEmpty, validateSubmission } from "./../util/validation";
 
 const axios = require("axios");
 const api = "http://localhost:8080/";
@@ -22,10 +22,12 @@ const EditApp = (props) => {
     time: "",
     date: "",
     location: "virtual",
-    topics: "",
+    topics: "N/A",
   });
-  const [message, setMessage] = useState({ time: "new", date: "new" });
-  const [disable, setDisable] = useState(true);
+  //const [message, setMessage] = useState({ time: "new", date: "new" });
+  const [message, setMessage] = useState("");
+  const [httpRequest, setHttpRequest] = useState({sent: false, message: "Are you sure you want to update the current tutoring session?"});
+  
 
   const SetUpTimes = async (date) => {
     if (date) {
@@ -37,6 +39,7 @@ const EditApp = (props) => {
         setTimes([...results.data.times]);
       } catch (err) {
         console.log(err);
+       
       }
     }
   };
@@ -48,24 +51,23 @@ const EditApp = (props) => {
   useEffect(() => {
     let currentState = { ...formData };
     currentState.date = selectedDate;
-    const error = validateEmpty(selectedDate, "Date");
-    if (error === "") {
       setFormData(currentState);
-    }
   }, [selectedDate]);
 
   useEffect(() => {
-    const timeError = validateEmpty(formData.time, "Time");
-    const dateError = validateEmpty(formData.date, "Date");
-
-    setMessage({ time: timeError, date: dateError });
+   const errors = validateSubmission(formData);
+   let message = "No Errors";
+   console.log(errors);
+   for (const [key, value] of Object.entries(errors)) {
+     if(errors[key].error == true){
+        message = errors[key].message;
+        break;
+     }
+   }
+   setMessage(message);
   }, [formData]);
 
-  useEffect(() => {
-    if ((message.date === "") & (message.time === "")) {
-      setDisable(false);
-    }
-  }, [message]);
+
 
   const handleSelectChange = (e) => {
     const error = validateEmpty(e.target.value, "Date");
@@ -97,30 +99,30 @@ const EditApp = (props) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth.token,
     };
+    setHttpRequest({sent: true, message: "Sending your request...."});
     try {
       const result = await axios.patch(
         `${api}requests/${props.req_id}`,
         formData,
         { headers: headers }
       );
+      setTimeout(()=>setHttpRequest({sent: true, message: "Request was sent succesfully!"}), 2500);
     } catch (err) {
-      console.log(err);
-      // const { message } = err.response.data;
-      // setError({ check: true, message: message });
-      // console.log(message);
+      setTimeout(()=>setHttpRequest({sent: true, message: "Request failed, please try again later."}), 2500);
     }
-    handleEdit();
+    setTimeout(() => handleEdit(), 4000);
     props.GetAppointments();
   };
 
   return (
     <React.Fragment>
       <Modal
+        editMode={httpRequest.sent}
         show={isOpen}
         handleSubmit={handleSubmit}
         onClose={openModal}
         message={
-          "Are you sure you want to update the current tutoring session?"
+         httpRequest.message
         }
       />
       <form id="edit-app-form">
@@ -152,12 +154,13 @@ const EditApp = (props) => {
           {`Current Session Time:`} <span>{`${props.time}`}</span>{" "}
         </p>
       </form>
+      {message !== "No Errors" && <ErrorBox message={message} />}
       <div className="appointment-block-buttons-wrapper">
         <button onClick={handleEdit} id="cancel">
           Cancel Edit
         </button>
         <button
-          className={disable ? "disabled" : ""}
+          className={message !== "No Errors" ? "disabled" : ""}
           onClick={openModal}
           id="submit"
         >

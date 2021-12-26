@@ -1,45 +1,62 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect, useCallback} from "react";
+
 
 export const useAuth = () => {
-  const [token, setToken] = useState("");
-  const [userID, setUserID] = useState("");
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
 
-  const login = (firstName, userId, token, email) => {
+
+  // const [userInfo, setUserInfo] = useState({
+  //   email: "",
+  //   userID: "",
+  //   token: "",
+  //   firstName: "",
+  // });
+
+  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem("userData")) || {
+    email: "",
+    userID: "",
+    token: "",
+    firstName: "",
+  });
+
+
+  const login = useCallback((firstName, userID, token, email) => {
     //const { firstName, userId, token, email } = userData;
 
-    setToken(token);
-    setUserID(userId);
-    setEmail(email);
-    setFirstName(firstName);
-
+    setUserInfo({
+      email, userID, token, firstName
+    })
     const tokenExpirationDate = new Date(Date.now() + 1000 * 60 * 60);
     const userData = {};
     localStorage.setItem(
       "userData",
       JSON.stringify({
         firstName,
-        userId: userId,
+        userID: userID,
         token: token,
         email,
         expiration: tokenExpirationDate.toISOString(),
       })
     );
-    console.log("log - in - timing");
-  };
+    
+  },[]);
 
-  const logout = () => {
-    console.log("log out");
-    setToken(null);
-    setUserID(null);
+  const logout = useCallback(() => {
+    
+    setUserInfo({
+      email: "",
+      userID: "",
+      token: "",
+      firstName: "",
+    });
     localStorage.removeItem("userData");
-  };
+    
+  },[]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     //will run once after the render cycle and allows the user to stay logged in
-    console.log("hi");
+
     const storedData = JSON.parse(localStorage.getItem("userData"));
+
     if (
       storedData &&
       storedData.token &&
@@ -49,11 +66,15 @@ export const useAuth = () => {
       console.log("inside userEffect", storedData);
       login(
         storedData.firstName,
-        storedData.userId,
+        storedData.userID,
         storedData.token,
         storedData.email
       );
     }
+    else{
+      logout();
+    }
+
   }, []);
-  return { login, logout, token, userID, email, firstName };
+  return { login, logout, userInfo };
 };

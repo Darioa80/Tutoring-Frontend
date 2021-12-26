@@ -6,13 +6,16 @@ import Input from "./Input";
 import { AuthContext } from "./../../context/auth-context";
 import ErrorBox from "./error-box";
 import { validation } from "../../util/validation";
-import { object } from "joi";
+import { useError } from "../../util/error-hook";
+import HTTPModal from "../HTTPModal";
+import LoadingModal from "../loadingModal";
 
 const axios = require("axios");
 
-const api = "http://localhost:8080/";
+
 
 const LoginForm = (props) => {
+  const {httpError, HttpErrorDetected, CloseModal, loadingHttpResponse} = useError();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -28,7 +31,7 @@ const LoginForm = (props) => {
       message: "",
     };
     for (const [key, value] of Object.entries(errors)) {
-      if (value != "") {
+      if (value !== "") {
         error.error = true;
         error.message = value;
         break;
@@ -38,7 +41,6 @@ const LoginForm = (props) => {
   };
 
   useEffect(() => {
-    console.log("hi");
     let result = returnFirstErrors(error);
 
     setMessage(result.message);
@@ -47,11 +49,10 @@ const LoginForm = (props) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    let userData = "";
-
     try {
+      loadingHttpResponse(true);
       const result = await axios.post(
-        api + "user/login",
+        `${process.env.REACT_APP_API_URL}user/login`,
         {
           email: formData["email"],
           password: formData["password"],
@@ -60,24 +61,13 @@ const LoginForm = (props) => {
           "Content-Type": "application/json",
         }
       );
-      console.log(result.data);
+
       const { firstName, userID, token, email } = result.data;
       auth.login(firstName, userID, token, email);
-      // auth.login(
-      //   result.data.firstName,
-      //   result.data.userID,
-      //   result.data.token,
-      //   result.data.email
-      // );
-
       history.push("/");
     } catch (err) {
-      const { message } = err.response.data;
-      //setError({ check: true, message: message });
-      setMessage(message);
+      HttpErrorDetected(err);
     }
-
-    //console.log(userData);
   };
 
   const handleChange = ({ currentTarget: input }) => {
@@ -85,16 +75,17 @@ const LoginForm = (props) => {
     let newValue = { ...formData };
 
     newValue[name] = value;
-    //console.log(newValue);
     setFormData(newValue);
     setError(validation(newValue));
   };
 
   return (
     <React.Fragment>
-      <div className="form-parent">
+      <div className="form-parent slim-form">
+        {httpError.occured === "loading" && <LoadingModal/>}
+        {httpError.occured === true && <HTTPModal show={httpError.occured} message={httpError.message} onClose={CloseModal} id={"delete-modal"} buttonID={"cancel"} /> }
         <form onSubmit={submitHandler} className="vertical-form-wrap">
-          <h1>Log in to your account</h1>
+          <h1>Log in</h1>
           <div className="wrap-login-form-field">
             <Input
               name="email"

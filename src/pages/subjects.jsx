@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
+import HTTPModal from "../components/HTTPModal";
 
 const axios = require("axios");
 const api = "http://localhost:8080/";
@@ -16,9 +17,11 @@ const api = "http://localhost:8080/";
 export const Subjects = () => {
   const history = useHistory();
   const [subjects, setSubjects] = useState([]);
+  const [loading, setLoading] = useState(true);
   const auth = useContext(AuthContext);
 
   const getSubjects = async () => {
+    console.log("Subjects page...");
     try {
       const { data } = await axios.get(api + "subjects/subjects");
       const result = await axios.get(api + "subjects/topics");
@@ -57,18 +60,27 @@ export const Subjects = () => {
   };
 
   useEffect(async () => {
+    console.log("Subjects Rendered");
     getSubjects();
   }, []);
-  return (
-    <div className="subjects-page-wrapper">
+
+  useEffect(() =>{
+    setLoading(false);
+    
+  }, [subjects]);
+
+  return (<React.Fragment>
+    {loading && <HTTPModal 
+      show={true}
+      id={"confirm"}
+      message={"Loading...."}
+      /> }
+    {!loading && <div className="subjects-page-wrapper">
       <div className="flex-col">
-        {/* <button id="tutoring-request" onClick={RequestSession}>
-          Request a Tutoring Session
-        </button> */}
         <h2>Subjects</h2>
-        <p>
+        <p style={{textAlign: "center"}}>
           Subjects listed are offered for tutoring. The cost displayed is for a
-          1 hour session. To request a session with your account, click on the
+          1 hour session. To request a session, click on the
           title of any of the subjects.
         </p>
       </div>
@@ -88,13 +100,15 @@ export const Subjects = () => {
           );
         })}
       </div>
-    </div>
+    </div>}
+    
+    </React.Fragment>
   );
 };
 
 const SubjectCard = (props) => {
   const { subject_id, image_path, title, rate, description, topics } = props;
-  console.log(subject_id);
+ 
   return (
     <div className="subject-outer">
       <div className="subject-image-background">

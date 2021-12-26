@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink, Link, useHistory } from "react-router-dom";
 
 import { AuthContext } from "./../../context/auth-context";
@@ -22,10 +22,11 @@ const LogInNav = () => {
     <React.Fragment>
       {!token && (
         <nav className="login-nav">
+          <span>Log in to request a session: </span>
           <NavLink className="login-nav-spacing" to="/signup">
             Sign Up
           </NavLink>
-          <span style={{ color: "black" }}> | </span>
+          <span id="spacer" style={{ color: "black" }}> | </span>
           <NavLink className="login-nav-spacing" to="/login">
             Log In
           </NavLink>
@@ -36,7 +37,7 @@ const LogInNav = () => {
           <div className="logged-in-div">
             <div className="logged-in-background">
               <p className="logged-in-text logged-in-actions">
-                <Link to={`requests/me`}>My Appointments</Link>
+                <Link to={`/requests/me`}>My Appointments</Link>
               </p>
 
               {/* <p id="spacer">{` | `}</p> */}

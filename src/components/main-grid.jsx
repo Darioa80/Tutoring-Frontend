@@ -14,15 +14,15 @@ const MainGrid = () => {
   ];
 
   const showDiv = () => {
-    console.log(imageRef);
-
     hiddenDiv.current.style.display = "flex";
     imageRef.current.style.opacity = "0.55";
+    imageRef.current.style.transform = "scale(1.1)";
   };
 
   const hideDiv = () => {
     hiddenDiv.current.style.display = "none";
     imageRef.current.style.opacity = "1";
+    imageRef.current.style.transform = "scale(1)";
   };
   const hiddenDiv = useRef(null);
   const imageRef = useRef(null);
@@ -52,7 +52,7 @@ const MainGrid = () => {
         <div className="home-main-grid-acc">
           <ul>
             {acc.map((accItem, Index) => (
-              <li className="accHeader">{accItem}</li>
+              <li key={"accHeader" + Index}className="accHeader">{accItem}</li>
             ))}
           </ul>
         </div>

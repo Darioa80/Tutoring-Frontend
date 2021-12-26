@@ -38,9 +38,16 @@
 
 .login-nav {
   @include flexRowEnd();
-  color: $blue;
-  text-decoration: underline;
+ 
   padding: 0.5rem 0.5rem 0.5rem 0rem;
+  a{
+    color: $blue;
+    text-decoration: underline;
+    text-align: center;
+  }
+  span{
+    text-align: end;
+  }
   @media only screen and (min-width: $mq-48) {
     padding: 0.5rem 1.5rem 0.5rem 0rem;
   }
@@ -48,6 +55,11 @@
 
 .login-nav-spacing {
   @include navSpacing();
+  max-width: 4rem;
+  flex-basis: 20%;
+  @media only screen and (min-width: $mq-60) {
+    flex-basis: 9%;
+  }
 }
 
 div {

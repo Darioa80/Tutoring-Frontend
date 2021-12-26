@@ -1,24 +1,21 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { useHistory, Link } from "react-router-dom";
-
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
-
-import Input from "./Input";
 import { AuthContext } from "../../context/auth-context";
-import { parseDate, ConvertTime } from "../../util/date-time";
+import { ConvertTime } from "../../util/date-time";
 import { validateSubmission } from "../../util/validation";
 import ErrorBox from "./error-box";
+import { useError } from "../../util/error-hook";
 import HTTPModal from "../HTTPModal";
+import LoadingModal from "../loadingModal";
 
 const axios = require("axios");
-const api = "http://localhost:8080/";
+
 
 const RequestForm = (props) => {
+  const {httpError, HttpErrorDetected, CloseModal, loadingHttpResponse} = useError();
   const selectedRef = useRef(null);
   const auth = useContext(AuthContext);
-  const history = useHistory();
   const [show, setShow] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
   const [pricesObject, setPricesObject] = useState({});
@@ -32,6 +29,7 @@ const RequestForm = (props) => {
     date: "",
     location: "",
     topics: "",
+    quantity: 1
   });
   const [error, setError] = useState({
     subject_id: { error: false, message: "" },
@@ -39,18 +37,19 @@ const RequestForm = (props) => {
     date: { error: false, message: "" },
   });
   const [disable, setDisable] = useState({ disable: true, message: "" });
-  let id_subjectName = {};
+ 
+  
 
   const SetUpTimes = async (date) => {
     if (date) {
       try {
-        const results = await axios.post(api + "requests/times", {
+        const results = await axios.post(`${process.env.REACT_APP_API_URL}requests/times`, {
           date: new Date(date),
         });
 
         setTimes([...results.data.times]);
       } catch (err) {
-        console.log(err);
+        HttpErrorDetected(err);
       }
     }
   };
@@ -58,9 +57,8 @@ const RequestForm = (props) => {
   useEffect(() => {
     let disable = false;
     let message = "";
-    console.log(error);
     for (const [key, value] of Object.entries(error)) {
-      if (value.error == true) {
+      if (value.error === true) {
         disable = true;
         message = value.message;
         break;
@@ -71,21 +69,26 @@ const RequestForm = (props) => {
   }, [error]);
 
   useEffect(() => {
-    console.log("checking for them errors...");
+
     const { subject_id, time, date } = formData;
     setError(validateSubmission({ subject_id, date, time }));
   }, [formData]);
 
-  useEffect(async () => {
-    try {
-      const results = await axios.get(api + "requests/subjects");
-      console.log(results.data);
-      id_subjectName = results.data[0];
-      setSubjects(Object.values(id_subjectName));
-      setPricesObject(results.data[1]);
-    } catch (err) {
-      console.log(err);
+  useEffect(() => {
+    const fetchSubjects = async ()=>{
+      loadingHttpResponse(true);
+      let id_subjectName;
+      try {
+        const results = await axios.get(`${process.env.REACT_APP_API_URL}requests/subjects`);
+        id_subjectName = results.data[0];
+        setSubjects(Object.values(id_subjectName));
+        setPricesObject(results.data[1]);
+        loadingHttpResponse(false);
+      } catch (err) {
+        HttpErrorDetected(err);
+      }
     }
+    fetchSubjects();
   }, []);
 
   useEffect(() => {
@@ -99,31 +102,52 @@ const RequestForm = (props) => {
   }, [selectedDate]);
 
   const submitHandler = async (e) => {
+    e.preventDefault();
+    loadingHttpResponse(true);
+    localStorage.setItem(
+      "requestData",
+      JSON.stringify({
+        user_id: formData.user_id,
+        subject_id: formData.subject_id,
+        time: formData.time,
+        date: formData.date,
+      })
+    );
     const headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth.token,
     };
-    e.preventDefault();
+    
+    
     try {
-      const result = await axios.post(api + "requests/", formData, {
+     const result = await axios.post(`${process.env.REACT_APP_API_URL}requests/create-checkout-session`, formData, {
         headers: headers,
       });
+      window.location.href = result.data.url;
 
-      history.push("/");
     } catch (err) {
-      console.log(err);
+      HttpErrorDetected(err);
     }
+
   };
+
+  useEffect(() =>{
+    if(props.subject_id !== ""){
+      setPrice(pricesObject[props.subject_id - 1]);
+    }
+    else{
+      setPrice(0);
+    }
+  },[pricesObject])
 
   const handleSelectChange = (e) => {
     let currentState = { ...formData };
-    if (e.target.id == "subject") {
+    if (e.target.id === "subject") {
       currentState.subject_id = e.target.value;
       setFormData(currentState);
-
       setPrice(pricesObject[e.target.value]);
     }
-    if (e.target.id == "time") {
+    if (e.target.id === "time") {
       currentState.time = e.target.value;
       setFormData(currentState);
     }
@@ -138,6 +162,8 @@ const RequestForm = (props) => {
   if (!show) {
     return (
       <div className="form-parent">
+        {httpError.occured === "loading" && <LoadingModal/>}
+        {httpError.occured === true && <HTTPModal show={httpError.occured} message={httpError.message} onClose={CloseModal} id={"delete-modal"} buttonID={"cancel"} /> }
         <form onSubmit={submitHandler} className="vertical-form-wrap">
           <h1>Tutoring Request</h1>
 
@@ -156,7 +182,7 @@ const RequestForm = (props) => {
                       <option
                         key={"sub" + index}
                         value={index + 1}
-                        selected={props.subject_id == index + 1 ? true : false}
+                        selected={props.subject_id === index + 1 ? true : false}
                       >
                         {value}
                       </option>
@@ -187,8 +213,8 @@ const RequestForm = (props) => {
               </div>
             </div>
             <hr />
-            <span id="cost">{`Cost: $${price}`}</span>
-            {disable.message != "" && <ErrorBox message={disable.message} />}
+            <span id="cost">{`Cost: $${price || 0}`}</span>
+            {disable.message !== "" && <ErrorBox message={disable.message} />}
             <button
               className={`sign-up-button ${disable.disable ? `disabled` : ``}`}
               disabled={disable.disable}

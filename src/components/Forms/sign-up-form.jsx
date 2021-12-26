@@ -1,15 +1,19 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-
 import "../../scss/wrap.scss";
 import Input from "./Input";
 import { AuthContext } from "./../../context/auth-context";
 import { validation } from "../../util/validation";
 import ErrorBox from "./error-box";
+import { useError } from "../../util/error-hook";
+import HTTPModal from "../HTTPModal";
+import LoadingModal from "../loadingModal";
+
 const axios = require("axios");
-const api = "http://localhost:8080/";
+
 
 const SignUpForm = (props) => {
+  const {httpError, HttpErrorDetected, CloseModal, loadingHttpResponse} = useError();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -60,10 +64,9 @@ const SignUpForm = (props) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    console.log("submitting....");
+    loadingHttpResponse(true);
     try {
-      const result = await axios.post(
-        api + "user/register",
+      const result = await axios.post(`${process.env.REACT_APP_API_URL}user/register`,
         {
           email: formData["email"],
           password: formData["password"],
@@ -80,14 +83,14 @@ const SignUpForm = (props) => {
       auth.login(firstName, userID, token, email);
       history.push("/");
     } catch (err) {
-      const { message } = err.response.data;
-      setError({ check: true, message: message });
-      console.log(message);
+      HttpErrorDetected(err);
     }
   };
 
   return (
     <div className="form-parent">
+        {httpError.occured === "loading" && <LoadingModal/>}
+        {httpError.occured === true && <HTTPModal show={httpError.occured} message={httpError.message} onClose={CloseModal} id={"delete-modal"} buttonID={"cancel"} /> }
       <form onSubmit={submitHandler} className="vertical-form-wrap">
         <h1>Sign Up</h1>
 

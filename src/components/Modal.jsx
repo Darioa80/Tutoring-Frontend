@@ -9,6 +9,7 @@ const Modal = (props) => {
           <div className="modal-message">
             <h6>{props.message}</h6>
           </div>
+          {!props.editMode &&
           <div className="modal-buttons">
             <button onClick={props.onClose} id="cancel">
               No
@@ -17,6 +18,7 @@ const Modal = (props) => {
               Yes
             </button>
           </div>
+          }
         </div>
       </div>,
       document.getElementById("modal")

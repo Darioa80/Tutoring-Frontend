@@ -3,6 +3,12 @@ $mq-48: 1200px;
 $mq-1000: 1000px;
 $mq-60: 600px;
 
+//widths
+$max-div-width: 70rem;
+$max-form-width: 30rem;
+$max-image-width: 22rem;
+$select-form-width: 70%;
+
 //colors
 $mainred: rgb(184, 0, 86);
 $blue: rgb(0, 198, 224);
@@ -12,10 +18,13 @@ $darkgrey: #222222;
 $hover-green: rgba(0, 256, 0, 0.9);
 
 //fonts
-$font-l: 2rem;
+$font-l: 1.75rem;
 $font-m: 1.5rem;
 $font-s: 1rem;
 $font-xs: 0.8rem;
+
+//font-weight
+$standard-weight: 400;
 
 //wrapper widths
 $main-fs: 90%;
@@ -32,8 +41,11 @@ $border-width-s: 2px;
 $upper-spacing-sm: 0.5rem;
 $margin-s: 0.75rem;
 
+
+
 //mixins
 @mixin button-styling($margin-top) {
+  max-width: 10rem;
   margin-top: $margin-top;
   padding: 0.5rem 0.75rem;
   border-radius: $border-radius-small;
@@ -62,4 +74,14 @@ button {
   font-size: $fontSize;
   font-weight: $fontWeight;
   color: $color;
+}
+
+@mixin pageWrapper(){
+  padding: 0.5rem;
+  width: 90%;
+  max-width: $max-div-width;
+  margin: auto;
+  @media only screen and (min-width: 36em) {
+    width: $main-fs;
+  }
 }

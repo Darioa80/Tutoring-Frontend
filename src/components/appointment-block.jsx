@@ -39,7 +39,6 @@ const AppointmentBlock = (props) => {
   };
 
   const handleEdit = () => {
-    console.log("hi", editMode);
     setEditMode(!editMode);
   };
 

@@ -1,17 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import LogIn from "../components/Navigation/Login";
 import { AuthContext } from "./../context/auth-context";
 import AppointmentBlock from "./../components/appointment-block";
+import { useError } from "../util/error-hook";
+import HTTPModal from "../components/HTTPModal";
+import LoadingModal from "../components/loadingModal";
+
 const axios = require("axios");
 const api = "http://localhost:8080/";
 
 const AppointmentsPage = () => {
+  const {httpError, HttpErrorDetected, CloseModal, loadingHttpResponse} = useError();
   const auth = useContext(AuthContext);
 
   const [appointments, setAppoinments] = useState([]);
 
   const getAppointments = async () => {
+    loadingHttpResponse(true);
     const headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth.token,
@@ -21,8 +26,9 @@ const AppointmentsPage = () => {
         headers: headers,
       });
       setAppoinments(result.data.apps);
+      loadingHttpResponse(false);
     } catch (err) {
-      console.log(err);
+      HttpErrorDetected(err);
     }
   };
 
@@ -42,6 +48,8 @@ const AppointmentsPage = () => {
     <React.Fragment>
       <div className="appointments-wrapper">
         <div className="appointments-outer">
+        {httpError.occured === "loading" && <LoadingModal/>}
+        {httpError.occured === true && <HTTPModal show={httpError.occured} message={httpError.message} onClose={CloseModal} id={"delete-modal"} buttonID={"cancel"} /> }
           <h1>
             {`You have `}
             <span>{appointments.length}</span> {`tutoring sessions coming up!`}

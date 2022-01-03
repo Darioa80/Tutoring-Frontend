@@ -102,7 +102,7 @@ const EditApp = (props) => {
     setHttpRequest({sent: true, message: "Sending your request...."});
     try {
       const result = await axios.patch(
-        `${api}requests/${props.req_id}`,
+        `${process.env.REACT_APP_API_URL}requests/${props.req_id}`,
         formData,
         { headers: headers }
       );

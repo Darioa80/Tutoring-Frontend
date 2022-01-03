@@ -22,7 +22,7 @@ const AppointmentsPage = () => {
       Authorization: "Bearer " + auth.token,
     };
     try {
-      const result = await axios.get(`${api}requests/user/${auth.userID}`, {
+      const result = await axios.get(`${process.env.REACT_APP_API_URL}requests/user/${auth.userID}`, {
         headers: headers,
       });
       setAppoinments(result.data.apps);

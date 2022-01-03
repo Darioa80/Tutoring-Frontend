@@ -63,7 +63,6 @@ export const useAuth = () => {
       new Date(storedData.expiration) > new Date()
     ) {
       //compares expiration date to current time
-      console.log("inside userEffect", storedData);
       login(
         storedData.firstName,
         storedData.userID,

@@ -21,7 +21,7 @@ const AppointmentBlock = (props) => {
           Authorization: "Bearer " + auth.token,
         };
         try {
-          const result = await axios.delete(`${api}requests/${props.id}`, {
+          const result = await axios.delete(`${process.env.REACT_APP_API_URL}requests/${props.id}`, {
             headers: headers,
           });
           props.updatePage(props.id);

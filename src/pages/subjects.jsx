@@ -5,7 +5,6 @@ import { AuthContext } from "../context/auth-context";
 import HTTPModal from "../components/HTTPModal";
 
 const axios = require("axios");
-const api = "http://localhost:8080/";
 // type Subject = {
 //   "Subject_ID": Number;
 //   "Subject_Name": String;
@@ -21,11 +20,9 @@ export const Subjects = () => {
   const auth = useContext(AuthContext);
 
   const getSubjects = async () => {
-    console.log("Subjects page...");
     try {
-      const { data } = await axios.get(api + "subjects/subjects");
-      const result = await axios.get(api + "subjects/topics");
-
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}subjects/subjects`);
+      const result = await axios.get(`${process.env.REACT_APP_API_URL}subjects/topics`);
       let initial_id = result.data[0].subject_id;
       let arrays = {};
       arrays[initial_id] = [result.data[0].topic];

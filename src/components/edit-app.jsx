@@ -94,23 +94,27 @@ const EditApp = (props) => {
   const openModal = (e) => {
     setIsOpen(!isOpen);
   };
+
   const handleSubmit = async (e) => {
     const headers = {
       "Content-Type": "application/json",
       Authorization: "Bearer " + auth.token,
     };
-    setHttpRequest({sent: true, message: "Sending your request...."});
+     setHttpRequest({sent: true, message: "Sending your request...."});
     try {
       const result = await axios.patch(
         `${process.env.REACT_APP_API_URL}requests/${props.req_id}`,
         formData,
         { headers: headers }
       );
+      console.log("Request was sent");
       setTimeout(()=>setHttpRequest({sent: true, message: "Request was sent succesfully!"}), 2500);
+     
     } catch (err) {
       setTimeout(()=>setHttpRequest({sent: true, message: "Request failed, please try again later."}), 2500);
     }
-    setTimeout(() => handleEdit(), 4000);
+     handleEdit();
+    setIsOpen(!isOpen);
     props.GetAppointments();
   };
 

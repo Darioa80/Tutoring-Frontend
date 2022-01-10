@@ -3,24 +3,20 @@ import { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../context/auth-context";
 import HTTPModal from "../components/HTTPModal";
+import { useError } from "../util/error-hook";
+import LoadingModal from "../components/loadingModal";
 
 const axios = require("axios");
-// type Subject = {
-//   "Subject_ID": Number;
-//   "Subject_Name": String;
-//   "Rate": Number;
-//   "description": String;
-//   "image": String;
-// };
-
 export const Subjects = () => {
   const history = useHistory();
   const [subjects, setSubjects] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const {httpError, HttpErrorDetected, CloseModal, loadingHttpResponse} = useError();
+
   const auth = useContext(AuthContext);
 
   const getSubjects = async () => {
     try {
+      loadingHttpResponse(true);
       const { data } = await axios.get(`${process.env.REACT_APP_API_URL}subjects/subjects`);
       const result = await axios.get(`${process.env.REACT_APP_API_URL}subjects/topics`);
       let initial_id = result.data[0].subject_id;
@@ -44,7 +40,7 @@ export const Subjects = () => {
 
       setSubjects(data);
     } catch (err) {
-      console.log(err);
+      HttpErrorDetected(err);
     }
   };
 
@@ -57,22 +53,17 @@ export const Subjects = () => {
   };
 
   useEffect(async () => {
-    console.log("Subjects Rendered");
     getSubjects();
   }, []);
 
   useEffect(() =>{
-    setLoading(false);
     
+    CloseModal();
   }, [subjects]);
 
   return (<React.Fragment>
-    {loading && <HTTPModal 
-      show={true}
-      id={"confirm"}
-      message={"Loading...."}
-      /> }
-    {!loading && <div className="subjects-page-wrapper">
+{httpError.occured === "loading" && <LoadingModal/>}
+  <div className="subjects-page-wrapper">
       <div className="flex-col">
         <h2>Subjects</h2>
         <p style={{textAlign: "center"}}>
@@ -97,7 +88,7 @@ export const Subjects = () => {
           );
         })}
       </div>
-    </div>}
+    </div>
     
     </React.Fragment>
   );

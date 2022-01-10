@@ -11,6 +11,6 @@ text[4] =
 text[5] =
   "Throughout his studies, Darío was and continues to be involved in his community. Graduating from a state university in Arizona without a permanent immigration status is extremely difficult. Arizona's public universities are not accessible to immigrant youth. With this understanding, Darío has been dedicated to creating possibilities for immigrant youth in Arizona.";
 text[6] =
-  "He has served as a volunteer Executive Team member at ScholarshipsA-Z for 5 years. From advocating for policy changes to directing the programs, to leading Communicsations to nurturing the growth of the organization. He has been an astounding grassroots organizer and leader in Tucson.";
+  "Dario served as a volunteer Executive Team member at ScholarshipsA-Z for over 5 years. From advocating for policy changes to directing the programs, to leading communications to nurturing the sustainability and growth of the organization. He has been an astounding grassroots organizer and leader in Tucson.";
 
 export default text;

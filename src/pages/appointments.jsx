@@ -48,7 +48,7 @@ const AppointmentsPage = () => {
     <React.Fragment>
       <div className="appointments-wrapper">
         <div className="appointments-outer">
-        {httpError.occured === "loading" && <LoadingModal/>}
+        {/* {httpError.occured === "loading" && <LoadingModal/>} */}
         {httpError.occured === true && <HTTPModal show={httpError.occured} message={httpError.message} onClose={CloseModal} id={"delete-modal"} buttonID={"cancel"} /> }
           <h1>
             {`You have `}

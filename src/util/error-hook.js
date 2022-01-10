@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 
-export const useError= () => {
+export const useError = () => {
 
     const [httpError, setHttpError] = useState({occured: false, message: ""});
 
